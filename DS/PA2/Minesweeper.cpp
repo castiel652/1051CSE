@@ -36,7 +36,7 @@ int main()
 
 		for(int i = 0; i < n; ++i) {
 			for(int j = 0; j < m; ++j) {
-				cin >> input; 
+				cin >> input;
 				if( input == '.')
 					field[i][j] = '0';
 				else
@@ -51,12 +51,14 @@ int main()
 					PostAction(i, j, n, m, field);
 			}
 		}
+		if(count > 1)
+            cout << endl;
 		cout << "Field #" << count << ":" << endl;
-		
+
 		for(int i = 0; i < n; ++i)
 			cout << field[i] << endl;
 
-		cout << endl;
+
 	}
 	return 0;
 }
