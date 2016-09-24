@@ -3,40 +3,60 @@
 
 using namespace std;
 
-void 
-
+void PostAction(int x, int y, int n, int m, char field[][101])
+{
+	for(int i = -1; i <= 1; ++i) {
+		for(int j = -1; j <= 1; ++j) {
+			if(x + i >= 0 && x + i < n)
+				if(y + j >= 0 && y + j < m) {
+					if(x + i == x && y + j == y)
+						continue;
+					if(field[x+i][y+j] == '*')
+						continue;
+					field[x+i][y+j] += 1;
+				}
+		}
+	}
+}
 int main()
 {
 	int count = 0;
-	string *field;
-	char input
+	char field[101][101];
+	char input;
 	int n, m;
 
 	while(1) {
 		cin >> n;
 		cin >> m;
 
-		if( n == m == 0)
+		if( n == 0 && m == 0)
 			break;
 
-		field = new string[m + 1];
+		count++;
 
 		for(int i = 0; i < n; ++i) {
 			for(int j = 0; j < m; ++j) {
 				cin >> input; 
-				//ifield[i].resize(field[i].size() + 1);
-				field[i].push_back(input);
+				if( input == '.')
+					field[i][j] = '0';
+				else
+					field[i][j] = input;
 			}
+			field[i][m] = '\0';
 		}
 
 		for(int i = 0; i < n; ++i) {
 			for(int j = 0; j < m; ++j) {
-				if( field[i][j] == '.')
-					field[i][j] = '0';
+				if(field[i][j] == '*')
+					PostAction(i, j, n, m, field);
 			}
 		}
+		cout << "Field #" << count << ":" << endl;
+		
+		for(int i = 0; i < n; ++i)
+			cout << field[i] << endl;
 
-		delete field[];
+		cout << endl;
 	}
 	return 0;
 }
