@@ -13,15 +13,18 @@ int main()
 	char input[4];
 	int ramcount;
 	cin >> testcase;
+	/* The Following two cin.ignore() are used to skip the two \n after testcase  */
 	cin.ignore();
 	cin.ignore();
+	int dit; // digit in ones
+	int dio; // digit in tens
+	int dih; // digit in hundreds
 
 	for(int i = 0; i < testcase; ++i) {
 		fill(RAM, RAM + 1000, 0);
 		fill(Reg, Reg + 10, 0);
 
 		ramcount = 0;
-		cout << "start to get char" << endl;
 		while(gets(input)) {
 			if(!strcmp(input,""))
 				break;
@@ -29,43 +32,51 @@ int main()
 			ramcount++;
 		}
 
-		cout << "ouTTTTT" << endl;
-
 		count = 0;
-		for(int j = 0; j < 1000;++j) {
-			if(RAM[j] / 100 == 1)
-				break;
-			else if(RAM[j] / 100 == 2)
-				Reg[((RAM[j] / 10) % 10)] = RAM[j] % 10;
-			else if(RAM[j] / 100 == 3) {
-				Reg[((RAM[j] / 10) % 10)] += RAM[j] % 10;
-				Reg[((RAM[j] / 10) % 10)] %= 1000;
-			}
-			else if(RAM[j] / 100 == 4) {
-				Reg[((RAM[j] / 10) % 10)] *= RAM[j];
-				Reg[((RAM[j] / 10) % 10)] %= 1000;
-			}
-			else if(RAM[j] / 100 == 5)
-				Reg[((RAM[j] / 10) % 10)] = Reg[RAM[j] % 10];
-			else if(RAM[j] / 100 == 6) {
-				Reg[((RAM[j] / 10) % 10)] += Reg[RAM[j] % 10];
-				Reg[((RAM[j] / 10) % 10)] %= 1000;
-			}
-			else if(RAM[j] / 100 == 7) {
-				Reg[((RAM[j] / 10) % 10)] *= Reg[RAM[j] % 10];
-				Reg[((RAM[j] / 10) % 10)] %= 1000;
-			}
-			else if(RAM[j] / 100 == 8)
-				Reg[((RAM[j] / 10) % 10)] = RAM[Reg[RAM[j] % 10]];
-			else if(RAM[j] / 100 == 9)
-				RAM[Reg[RAM[j] % 10]] = Reg[(RAM[j]/10) % 10];
-			else if(RAM[j] / 100 == 0)
-				if(Reg[RAM[j] % 10] != 0)
-					j = Reg[(RAM[j]/10) % 10] - 1;
+		for(int j = 0; j < 1000; ++j) {
 			count++;
-			//cout << j << endl;
+			dit = RAM[j] / 10 % 10;
+			dio = RAM[j] % 10;
+			dih = RAM[j] / 100;
+
+			switch(dih) {
+			case 0:
+				if(Reg[dio] != 0)
+					j = Reg[dit] - 1;
+				break;
+			case 1:
+				j = 1000;
+				break;
+			case 2:
+				Reg[dit] = dio;
+				break;
+			case 3:
+				Reg[dit] += dio;
+				break;
+			case 4:
+				Reg[dit] *= dio;
+				break;
+			case 5:
+				Reg[dit] = Reg[dio];
+				break;
+			case 6:
+				Reg[dit] += Reg[dio];
+				break;
+			case 7:
+				Reg[dit] *= Reg[dio];
+				break;
+			case 8:
+				Reg[dit] = RAM[Reg[dio]];
+				break;
+			case 9:
+				RAM[Reg[dio]] = Reg[dit];
+				break;
+			}
+			Reg[dit] %=1000; /* The value in Reg can't be larger than 1000 */
 		}
-		cout << count<< endl;
+		cout << count << endl;
+		if(i < testcase - 1)
+			cout << endl;
 	}
 	return 0;
 }
