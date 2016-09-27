@@ -1,2 +1,2 @@
-UVA 10033 Interpreter
-UVA 10189 Minesweeper
+	UVA 10033 Interpreter
+	UVA 10189 Minesweeper
