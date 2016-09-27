@@ -52,7 +52,7 @@ int main()
 			}
 		}
 		if(count > 1)
-            cout << endl;
+			cout << endl;
 		cout << "Field #" << count << ":" << endl;
 
 		for(int i = 0; i < n; ++i)
