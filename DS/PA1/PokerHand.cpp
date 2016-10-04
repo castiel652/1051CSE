@@ -7,13 +7,13 @@ struct Player {
 	int Cards[5];
 	int Suits[5];
 	int Rank;
-	int *RankScore;
+	int *RankScore; // store the rank's value for second round of compare
 };
 
 void getCards(Player &player, string Cards, int n)
 {
 	for(int i = 0, j = n; i < 5; ++i, j+=3) {
-		if(Cards[j] == 'T')
+		if(Cards[j] == 'T')  // convert number to int
 			player.Cards[i] = 10;
 		else if(Cards[j] == 'J')
 			player.Cards[i] = 11;
@@ -25,7 +25,7 @@ void getCards(Player &player, string Cards, int n)
 			player.Cards[i] = 14;
 		else
 			player.Cards[i] = Cards[j] - '0';
-		if(Cards[j+1] == 'C')
+		if(Cards[j+1] == 'C') // convert suits to int
 			player.Suits[i] = 1;
 		else if(Cards[j+1] == 'D')
 			player.Suits[i] = 2;
@@ -37,7 +37,7 @@ void getCards(Player &player, string Cards, int n)
 	}
 }
 
-void Sort(Player &player)
+void Sort(Player &player) // sort to be descending order
 {
 	int temp; // temp value
 	for(int i = 0; i < 5; ++i) {
@@ -55,7 +55,7 @@ void Sort(Player &player)
 	}
 }
 
-bool isSF(Player &player)
+bool isSF(Player &player) // Straight flush
 {
 	for(int i = 1; i < 5; ++i) {
 		if(player.Suits[i] != player.Suits[0])
@@ -83,8 +83,8 @@ bool isFoaK(Player &player) // Four of a Kind
 	return false;
 }
 
-bool isFH(Player &player)
-{
+bool isFH(Player &player) //Full House
+{ 
 	if(((player.Cards[0] == player.Cards[1]) && (player.Cards[2] == player.Cards[4])) || ((player.Cards[0] == player.Cards[2]) && (player.Cards[3] == player.Cards[4]))) {
 		player.Rank = 7;
 		player.RankScore = new int[1];
@@ -94,7 +94,7 @@ bool isFH(Player &player)
 	return false;
 }
 
-bool isFlush(Player &player)
+bool isFlush(Player &player) //Flush
 {
 	for(int i = 1; i < 5; ++i) {
 		if(player.Suits[i] != player.Suits[0])
@@ -109,7 +109,7 @@ bool isFlush(Player &player)
 	return true;
 }
 
-bool isStraight(Player &player)
+bool isStraight(Player &player) //Straight
 {
 	for(int i = 0; i < 4; ++i) {
 		if((player.Cards[i] - 1) != player.Cards[i + 1])
@@ -196,7 +196,7 @@ bool isHC(Player &player) //High Card
 	return true;
 }
 
-void Scompare(Player &player1, Player &player2, int n)
+void Scompare(Player &player1, Player &player2, int n) // when both rank are same
 {
 	for(int i = 0; i < n; ++i) {
 		if(player1.RankScore[i] > player2.RankScore[i]) {
