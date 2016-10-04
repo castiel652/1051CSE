@@ -117,6 +117,7 @@ bool isStraight(Player &player)
 	}
 	player.Rank = 5;
 	player.RankScore = new int[1];
+	player.RankScore[0] = player.Cards[0];
 	return true;
 }
 
@@ -162,7 +163,7 @@ bool isTP(Player &player) //Two Pair
 
 bool isPair(Player &player)
 {
-	int pp = 0; // pair position
+	int pp = -1; // pair position
 	for(int i = 0; i < 4; ++i) {
 		if(player.Cards[i] == player.Cards[i + 1]) {
 			pp = i;
@@ -170,14 +171,15 @@ bool isPair(Player &player)
 		}
 	}
 
-	if(pp != 0) {
+	if(pp != -1) {
 		player.Rank = 2;
 		player.RankScore = new int[4];
 		player.RankScore[0] = player.Cards[pp];
-		
-		for(int i = 0, j = 1; i < 5; ++i, ++j) {
-			if((i != pp) && (i != pp + 1))
+		for(int i = 0, j = 1; i < 5; ++i) {
+			if((i != pp) && (i != pp + 1)) {
 				player.RankScore[j] = player.Cards[i];
+				j++;
+			}
 		}
 		return true;
 	}
@@ -265,8 +267,10 @@ int main()
 
 		Fcompare(Black, White);
 
-		delete[] Black.RankScore;
-		delete[] White.RankScore;
+		if(Black.RankScore != NULL)
+			delete[] Black.RankScore;
+		if(White.RankScore != NULL)
+			delete[] White.RankScore;
 	}
 	return 0;
 }
